@@ -43,3 +43,43 @@ Step 5:
 Let's grant the new user administrative privileges. Run the following command in your terminal.This will allow our normal user to run commands with administrative privileges by putting the word `sudo` before the command. To add these privileges to our new user, we need to add the user to the **sudo** group. By default, on Ubuntu 20.04, users who are members of the **sudo** group are allowed to use the `sudo` command.
 
 ![4](https://user-images.githubusercontent.com/91766546/156700154-78672756-23b9-4130-9217-5a5eee247c9e.png)
+
+Step 6:
+
+The UFW firewall will be used to ensure that only connections to certain services are permitted. The OpenSSH is the service that will allows us to connect to our server, and it has a profile registered with UFW. IN order to check this we need to run this command:
+
+![5](https://user-images.githubusercontent.com/91766546/156703876-75e7f8b4-d927-4b5b-8cfc-69918d858805.png)
+
+We need to make sure that the firewall allows SSH connections so that we can log back in next time. We can allow these connections by typing:
+
+![6](https://user-images.githubusercontent.com/91766546/156703929-6454401c-04b7-42c5-89d0-215d046713c1.png)
+
+Afterwards, we can enable the firewall by running the following command. Hit the Y key and Enter when prompted.
+
+![7](https://user-images.githubusercontent.com/91766546/156704102-50508378-715a-45f3-9618-9a6402121806.png)
+
+You can see that SSH connections are still allowed by typing:
+
+![8](https://user-images.githubusercontent.com/91766546/156704275-5d629e7f-e0de-4be6-8714-9fc1ceaabf9a.png)
+
+The firewall is currently blocking all connections except for SSH, so if we install and configure additional services, we will need to adjust the firewall settings to allow traffic in. 
+
+Step 7:
+
+Enabling External Access for Your Regular User
+
+The process for configuring SSH access for our new user depends on whether our server’s root account uses a password or SSH keys for authentication. If you logged in to your root account using a password, then password authentication is enabled for SSH. You can SSH to your new user account by opening up a new terminal session and using SSH with your new username.
+
+![456](https://user-images.githubusercontent.com/91766546/156705382-49ff2f06-a01d-4f52-ae57-a69b2aa2100d.png)
+
+Troubleshooting:
+
+It is possible to receive an error message that says: Permission Denied (publickey). 
+
+![454](https://user-images.githubusercontent.com/91766546/156705474-ca82fb3f-f4c1-4ae7-9ab2-4026df7ffe79.png)
+
+If you do not have this error, please skip ahead to the next section below. Otherwise, if you do have this error, then we can resolve it by modifying the configuration file. Use the following command in your Ubuntu server.
+
+![10](https://user-images.githubusercontent.com/91766546/156705587-9e2ee2f1-290d-41a9-9c41-db542cf21c16.png)
+
+
