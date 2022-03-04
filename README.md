@@ -82,4 +82,14 @@ If you do not have this error, please skip ahead to the next section below. Othe
 
 ![10](https://user-images.githubusercontent.com/91766546/156705587-9e2ee2f1-290d-41a9-9c41-db542cf21c16.png)
 
+This will open our nano text editor and now we can scroll through the file and make the following changes.
+
+Change "#PermitRootLogin prohibit-password" to the following:
+
+# PermitRootLogin yes
+
+Next, change # PasswordAuthentication no to the following:
+
+# PasswordAuthentication yes
+
 
