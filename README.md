@@ -82,7 +82,7 @@ If you do not have this error, please skip ahead to the next section below. Othe
 
 ![10](https://user-images.githubusercontent.com/91766546/156705587-9e2ee2f1-290d-41a9-9c41-db542cf21c16.png)
 
-This will open our nano text editor and now we can scroll through the file and make the following changes.
+This will open our nano editor and now we can scroll through the file and make the following changes.
 
 Change "#PermitRootLogin prohibit-password" to the following:
 
@@ -91,5 +91,41 @@ Change "#PermitRootLogin prohibit-password" to the following:
 Next, change # PasswordAuthentication no to the following:
 
 # PasswordAuthentication yes
+
+Next, we need to restart our server using the following command.
+
+![11](https://user-images.githubusercontent.com/91766546/156885024-fd174a77-0b2e-4756-954b-5fa012b77360.png)
+
+Now we should be able to SSH with your new username. Let's try this command again:
+
+![12](https://user-images.githubusercontent.com/91766546/156885048-09c26609-2d75-425d-9699-bf4ef81e7413.png)
+
+
+Step 8:
+
+The next step is to set Up SSH Keys on our PC. SSH keys provide a secure way of logging into our server and are recommended for all users.
+The first step is to create a key pair on the client machine (usually our computer).
+
+![keygen](https://user-images.githubusercontent.com/91766546/156885579-c1feb5cf-54a0-4140-b541-7adea1f00d8c.png)
+
+After entering the command, we will see the following output. Press Enter to save the key pair into the .ssh/ subdirectory in your home directory, or specify an alternate path.
+
+![k1](https://user-images.githubusercontent.com/91766546/156885832-72343a9f-7eda-4753-b1cd-1f8124015f71.png)
+
+we will then see a prompt asking us to enter a passphrase. Here we optionally may enter a secure passphrase, which is highly recommended. A passphrase adds an additional layer of security to prevent unauthorized users from logging in. After entering our passphrase, we will see an out put similar to this one on our terminal.
+
+![k2](https://user-images.githubusercontent.com/91766546/156885868-b4e1683b-328e-479c-a1f8-91f8bf366951.png)
+
+Step 9:
+
+Moving on to our next step, let's copy the Public Key to our Ubuntu Server
+
+The ssh-copy-id tool is included by default in many operating systems. For this method to work, we must already have password-based SSH access to our server.
+
+To use the utility, you specify the remote host that you would like to connect to, and the user account that you have password-based SSH access to. This is the account to which your public SSH key will be copied.
+
+The syntax is:
+
+![13](https://user-images.githubusercontent.com/91766546/156885610-9b3c407c-367d-43fc-89a3-16c1f8e5f644.png)
 
 
