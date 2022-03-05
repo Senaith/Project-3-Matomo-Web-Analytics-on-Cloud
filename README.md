@@ -120,12 +120,80 @@ Step 9:
 
 Moving on to our next step, let's copy the Public Key to our Ubuntu Server
 
-The ssh-copy-id tool is included by default in many operating systems. For this method to work, we must already have password-based SSH access to our server.
-
-To use the utility, you specify the remote host that you would like to connect to, and the user account that you have password-based SSH access to. This is the account to which your public SSH key will be copied.
+The ***ssh-copy-id*** tool is included by default in many operating systems. For this method to work, we must already have password-based SSH access to our server. To use the utility, we specify the remote host that we would like to connect to, and the user account that we have password-based SSH access to. This is the account to which our public SSH key will be copied.
 
 The syntax is:
 
+![k3](https://user-images.githubusercontent.com/91766546/156889080-296e301e-323d-4e51-85fe-82448b27f177.png)
+
+Our output should be something similar to this:
+
 ![13](https://user-images.githubusercontent.com/91766546/156885610-9b3c407c-367d-43fc-89a3-16c1f8e5f644.png)
+
+Now, our id_rsa.pub key has been successfully uploaded to the remote account!
+
+## Part 2:
+
+### Docker installation
+
+[Docker](https://www.docker.com/) is an application that simplifies the process of managing application processes in containers. Containers let us run our applications in resource-isolated processes. They’re similar to virtual machines, but containers are more portable, more resource-friendly, and more dependent on the host operating system. In this section, we’ll install and use Docker Community Edition (CE) on our PC. we’ll install Docker itself, work with containers and images, and push an image to a Docker Repository.
+
+#### Prerequisites
+
+- One Ubuntu 20.04 server set up  including a sudo non-root user and a firewall.
+- An account on [Docker Hub](https://hub.docker.com/) if you wish to create your own images and push them to Docker Hub
+
+Let's begin.
+
+Step 1:
+
+To ensure we get the latest version, we’ll install Docker from the official Docker repository. To do that, we’ll add a new package source, add the GPG key from Docker to ensure the downloads are valid, and then install the package.
+
+First, we need to update our existing list of packages by running this command.
+
+![14](https://user-images.githubusercontent.com/91766546/156889338-af26a4c9-a5e4-459b-a7b6-ce4ee7eb219a.png)
+
+Next, install a few prerequisite packages which let apt use packages over HTTPS:
+
+![15](https://user-images.githubusercontent.com/91766546/156889370-0239ff82-03d9-4f33-8fb7-c9f481b0ea24.png)
+
+Then add the GPG key for the official Docker repository to our system:
+
+![16](https://user-images.githubusercontent.com/91766546/156889398-da834a80-60b5-414f-bd34-74d424ce5391.png)
+
+Add the Docker repository to APT sources:
+
+![17](https://user-images.githubusercontent.com/91766546/156889414-d5c0c4b6-1dd9-49ac-94c9-19ad8a9dfb3f.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
