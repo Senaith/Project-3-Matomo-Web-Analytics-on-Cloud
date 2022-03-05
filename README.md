@@ -165,6 +165,48 @@ Add the Docker repository to APT sources:
 
 ![17](https://user-images.githubusercontent.com/91766546/156889414-d5c0c4b6-1dd9-49ac-94c9-19ad8a9dfb3f.png)
 
+This will also update our package database with the Docker packages from the newly added repo. We have to make sure we are about to install from the Docker repo instead of the default Ubuntu repo.
+
+![18](https://user-images.githubusercontent.com/91766546/156895833-9f19468c-0d67-4882-88e4-0425c3ad4b0c.png)
+
+Finally, let's install Docker.
+
+![19](https://user-images.githubusercontent.com/91766546/156895865-bcbe0163-e35d-4182-9e11-a795529ae605.png)
+
+Docker should now be installed, the daemon started, and the process enabled to start on boot. Run the following command to check that it’s running.
+
+![k4](https://user-images.githubusercontent.com/91766546/156895929-17aa324f-9161-4929-a1fb-948367777376.png)
+
+ And the output should be similar to the following, showing that the service is active and running:
+
+![20](https://user-images.githubusercontent.com/91766546/156895886-d07d1a30-e079-4edc-b76b-91a4e2788cb7.png)
+
+Step 2:
+
+Executing the Docker Command Without Sudo (Optional)
+
+By default, the docker command can only be run the root user or by a user in the docker group, which is automatically created during Docker’s installation process.
+
+![21](https://user-images.githubusercontent.com/91766546/156895949-aa154cbf-9201-4f01-8ce8-da28bd7a4421.png)
+
+If you want to avoid typing sudo whenever you run the docker command, add your username to the docker group.
+
+![21](https://user-images.githubusercontent.com/91766546/156896266-070ee72c-7f6f-447a-b169-200252bcc12e.png)
+
+To apply the new group membership, log out of the server and back in, or type the following:
+
+![22](https://user-images.githubusercontent.com/91766546/156896344-8b71332e-0015-4d69-96c2-2d443d68ca4c.png)
+
+You will be prompted to enter your user’s password to continue. Confirm that your user is now added to the Docker group by typing the following:
+
+![k5](https://user-images.githubusercontent.com/91766546/156896450-d627f52d-00e1-4814-8738-7b08f0202501.png)
+
+
+
+
+
+
+
 
 
 
