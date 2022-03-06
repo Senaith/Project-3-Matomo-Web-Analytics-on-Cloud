@@ -201,22 +201,137 @@ You will be prompted to enter your user’s password to continue. Confirm that y
 
 ![k5](https://user-images.githubusercontent.com/91766546/156896450-d627f52d-00e1-4814-8738-7b08f0202501.png)
 
+If we need to add a user to the docker group that we’re not logged in as, declare that username explicitly using:
 
+![21](https://user-images.githubusercontent.com/91766546/156896558-4dd6aac7-1a5f-465f-982b-a38aa313cace.png)
 
+Let’s explore the docker command next.
 
+Step 3: Using the Docker Command
 
+To view all available subcommands, type:
 
+![24](https://user-images.githubusercontent.com/91766546/156908199-f5ba53bf-ce2e-4ad3-af50-d0a6c4d12479.png)
 
+To view system-wide information about Docker, use:
 
+![25](https://user-images.githubusercontent.com/91766546/156925397-e82b5e10-506b-45f6-913c-c6485253700d.png)
 
+Let’s explore some of these commands. We’ll start by working with images.
 
+Step 4: Working with Docker Images
 
+Docker containers are built from Docker images. By default, Docker pulls these images from [Docker Hub](https://hub.docker.com/), a Docker registry managed by Docker, the company behind the Docker project. Anyone can host their Docker images on Docker Hub, so most applications and Linux distributions you’ll need will have images hosted there.
 
+To check whether we can access and download images from Docker Hub, we will run the following command and the output should indicate that Docker in working correctly.
 
+![26](https://user-images.githubusercontent.com/91766546/156925525-d9733e29-4717-4e06-843e-31cd9187b1a5.png)
 
+Docker was initially unable to find the hello-world image locally, so it downloaded the image from Docker Hub, which is the default repository. Once the image downloaded, Docker created a container from the image and the application within the container executed, displaying the message.
 
+You can search for images available on Docker Hub by using the docker command with the search subcommand. For example, to search for the Ubuntu image, type:
 
+![k7](https://user-images.githubusercontent.com/91766546/156925620-5298e069-583d-4b4b-8d48-2d31e743225a.png)
 
+The script will crawl Docker Hub and return a listing of all images whose name match the search string. This is the output you will get:
+
+![27](https://user-images.githubusercontent.com/91766546/156925629-ad550e08-164c-479b-bce0-42f9d2fcbc5c.png)
+
+Once you’ve identified the image that you would like to use, you can download it to your computer using the pull subcommand.
+
+![28](https://user-images.githubusercontent.com/91766546/156925667-3005ed5d-2ba2-4fc2-9fdf-1278e2dcc3ab.png)
+
+After an image has been downloaded, you can then run a container using the downloaded image with the `run` subcommand. To see the images that have been downloaded to our computer, let's run the following command.
+
+![29](https://user-images.githubusercontent.com/91766546/156925733-60d701a8-5e0c-42c4-96c8-9d4d6726cf40.png)
+
+Next, let’s look at how to run containers in more detail.
+
+### Step 5 — Running a Docker Container
+
+The hello-world container ran in the previous step is an example of a container that runs and exits after emitting a test message. Containers can be much more useful than that, and they can be interactive. Containers are similar to virtual machines, but more resource-friendly.
+
+Let’s run a container using the latest image of Ubuntu.
+
+![k9](https://user-images.githubusercontent.com/91766546/156926153-0b5da7d9-3b7e-4e51-840e-bc4b39bb849d.png)
+
+As you can see after we run the ***$ docker run -it ubuntu*** command our prompt should change to reflect the fact that we’re now working inside the container and should take this form:
+
+![k8](https://user-images.githubusercontent.com/91766546/156926023-c2136045-53b0-4c79-89c6-5d0db0f7f3e6.png)
+
+Note the container id in the command prompt. In this example, it is cf1adc04b5a0. we’ll need that container ID later to identify the container when we want to remove it.
+
+Now we can run any command inside the container. For example, let’s update the package database inside the container. You don’t need to prefix any command with sudo, because you’re operating inside the container as the root user:
+
+![k99](https://user-images.githubusercontent.com/91766546/156926308-57cff537-17f5-4aa2-88ff-e4d34c421823.png)
+
+Then install any application in it. Let’s install Node.js:
+
+![k999](https://user-images.githubusercontent.com/91766546/156926278-1bd46b6f-3f09-467a-bdc7-1ca34a82b8e0.png)
+
+This installs Node.js in the container from the official Ubuntu repository. Please select the geographic area that you live in. Select the city and region that best corresponds to your time zone.
+
+![31](https://user-images.githubusercontent.com/91766546/156926380-2fb1a533-4a0e-4311-8fd9-6dae529c679e.png)
+
+When the installation finishes, verify that Node.js is installed:
+
+![32](https://user-images.githubusercontent.com/91766546/156926350-b956f08a-8459-4933-88a5-2fcaa2fb2da2.png)
+
+To exit the container, type exit.
+
+Nice work! In the next section, we will look at managing the containers on our system.
+
+### Step 6 — Managing Docker Containers
+
+After using Docker for a while, you’ll have many active (running) and inactive containers on your computer. To view the active ones, use:
+
+![33](https://user-images.githubusercontent.com/91766546/156926459-181517e5-5190-4b9e-aa00-9a52942369b8.png)
+
+you started two containers; one from the `hello-world` image and another from the `ubuntu` image. Both containers are no longer running, but they still exist on your system. To view all containers — active and inactive, let's run this command:
+
+![34](https://user-images.githubusercontent.com/91766546/156926476-47fd34e3-821e-4d7f-b00d-bb6bc64e077c.png)
+
+And in order to check the latest container we created we can use the following command.
+
+![35](https://user-images.githubusercontent.com/91766546/156926520-ca048440-1943-4bd7-9d37-2e29aac85488.png)
+
+When we want to start a stopped container, we can use docker start, followed by the container ID or the container’s name. 
+
+![36](https://user-images.githubusercontent.com/91766546/156926552-00e4ce4a-85b8-47b2-8b65-3a125e8510af.png)
+
+Now if we use the ***docker ps*** command and check we can see that our container is up.
+
+![37](https://user-images.githubusercontent.com/91766546/156926588-f329a4be-ef76-48bd-8382-3a820bab8651.png)
+
+To stop a running container, use docker stop, followed by the container ID or name. 
+
+![38](https://user-images.githubusercontent.com/91766546/156926613-94d63b6e-eba8-403c-a836-fd86a14b47c2.png)
+
+When we no longer need a container, we can remove it with the ***docker rm*** command, again using either the container ID or the name. Let's use the docker ps -a command to find the container name for the container associated with the hello-world image and remove it.
+
+![40](https://user-images.githubusercontent.com/91766546/156926636-d43db43b-5d2e-4c26-a657-542dc2e2358d.png)
+
+Containers can be turned into images which you can use to build new containers. Let’s look at how that works.
+
+### Step 7 — Committing Changes in a Container to a Docker Image
+
+This section shows you how to save the state of a container as a new Docker image. After installing Node.js inside the Ubuntu container, we now have a container running off an image, but the container is different from the image we used to create it. But we might want to reuse this Node.js container as the basis for new images later.
+
+Then let's commit the changes to a new Docker image instance using the following command.
+
+![41](https://user-images.githubusercontent.com/91766546/156926781-85f6aee1-4745-4361-b748-1c041c67d0fd.png)
+
+The -m switch is for the commit message that helps us and others know what changes we made, while -a is used to specify the author which is 'sunny' in this case. The container_id is the one we noted earlier in the project. Unless you created additional repositories on Docker Hub, the repository is usually your Docker Hub username.
+
+Listing the Docker images again will show the new image, as well as the old one that it was derived from like this.
+
+![42](https://user-images.githubusercontent.com/91766546/156926902-9123cc38-c505-4a41-9e59-605850ad5a84.png)
+
+In this example, ubuntu-nodejs is the new image, which was derived from the existing ubuntu image from Docker Hub. The size difference reflects the changes that were made. The change was that NodeJS was installed. So next time we need to run a container using Ubuntu with NodeJS pre-installed, we can just use the new image.
+
+### Step 8 — Pushing Docker Images to a Docker Repository
+
+The next logical step after creating a new image from an existing image is to share it with a select few of our friends, the whole world on Docker Hub, or other Docker registry that we have access to. To push an image to Docker Hub or any other Docker registry, we must have an account there.
 
 
 
