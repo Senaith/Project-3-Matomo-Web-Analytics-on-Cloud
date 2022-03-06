@@ -331,19 +331,70 @@ In this example, ubuntu-nodejs is the new image, which was derived from the ex
 
 ### Step 8 — Pushing Docker Images to a Docker Repository
 
-The next logical step after creating a new image from an existing image is to share it with a select few of our friends, the whole world on Docker Hub, or other Docker registry that we have access to. To push an image to Docker Hub or any other Docker registry, we must have an account there.
+The next logical step after creating a new image from an existing image is to share it with a select few of our friends, the whole world on Docker Hub, or other Docker registry that we have access to. To push an image to Docker Hub or any other Docker registry, we must have an account there. We’ll be prompted to authenticate using our Docker Hub password. If our password is correct then, authentication should succeed.
 
+![43](https://user-images.githubusercontent.com/91766546/156932324-e894624f-ee14-4c80-97c2-73c1d45fc9c7.png)
 
+Note: If the Docker registry username is different from the local username we used to create the image, we will have to tag our image with our registry username. For the example given in the last step, use the following command:
 
+![44](https://user-images.githubusercontent.com/91766546/156932546-7c01e1f8-c753-4394-af10-625c55cff814.png)
 
+To push the ubuntu-nodejs image to your Docker repository, the command would be:
 
+![45](https://user-images.githubusercontent.com/91766546/156932576-02540bab-758c-4624-898b-7b0789cdb982.png)
 
+After pushing an image to a registry, it should be listed on your account’s dashboard, like that show in the image below.
 
+![k77](https://user-images.githubusercontent.com/91766546/156935092-df2e851d-9182-4c94-8878-7152021f5f61.png)
 
+We can now use docker pull senaith/ubuntu-nodejs to pull the image to a new machine and use it to run a new container.
 
+## nstalling Docker Compose
 
+[Docker Compose](https://docs.docker.com/compose/) is a tool that allows you to run multi-container application environments based on definitions set in a YAML file. It uses service definitions to build fully customizable environments with multiple containers that can share networks and data volumes.
 
+Let's install Docker Compose on an Ubuntu 20.04 server and see how to get started using this tool.
 
+#### Prerequisites
+
+We will need:
+
+- Access to an Ubuntu 20.04 local machine or development server as a non-root user with sudo privileges. If we’re using a remote server, it’s advisable to have an active firewall installed.
+- Docker installed on our server or local machine
+
+To make sure we obtain the most updated stable version of Docker Compose, we’ll download this software from its [official Github repository](https://github.com/docker/compose).
+
+First, confirm the latest version available in their [releases page](https://github.com/docker/compose/releases). At the time of this writing, the most current stable version is `1.27.4`.
+
+The following command will download the `1.27.4` release and save the executable file at ***/usr/local/bin/docker-compose***, which will make this software globally accessible as ***docker-compose***:
+
+![46](https://user-images.githubusercontent.com/91766546/156935528-4817f168-52e5-4d30-b6d4-26d8271bb235.png)
+
+Next, set the correct permissions so that the docker-compose command is executable:
+
+![47](https://user-images.githubusercontent.com/91766546/156935640-4329f884-c568-4776-8c6f-625cd444b669.png)
+
+To verify that the installation was successful, we can run:
+
+![48](https://user-images.githubusercontent.com/91766546/156935708-4b21e807-a951-41fc-89b9-fb4143403bd0.png)
+
+Docker Compose is now successfully installed on our system. In the next section, we’ll see how to set up a docker-compose.yml file and get a containerized environment up and running with this tool.
+
+### Setting Up a docker-compose.yml File
+
+To demonstrate how to set up a docker-compose.yml file and work with Docker Compose, we’ll create a web server environment using the official Nginx image from Docker Hub, the public Docker registry. This containerized environment will serve a single static HTML file.
+
+Let's start by creating a new directory in our home folder, and then moving into it:
+
+![49](https://user-images.githubusercontent.com/91766546/156936813-3b712e4e-0544-4ddd-8898-6edbff5af288.png)
+
+In this directory, we will set up an application folder to serve as the document root for our Nginx environment:
+
+![50](https://user-images.githubusercontent.com/91766546/156936855-fd0973ed-0cb8-4ebe-ab1d-3712f3ea4e78.png)
+
+Using your preferred text editor, create a new index.html file within the app folder:
+
+![51](https://user-images.githubusercontent.com/91766546/156936869-2b800016-faa8-4200-96d0-9d2cb1f0bdc7.png)
 
 
 
