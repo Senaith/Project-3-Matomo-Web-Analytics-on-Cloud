@@ -331,7 +331,9 @@ In this example, ubuntu-nodejs is the new image, which was derived from the ex
 
 ### Step 8 — Pushing Docker Images to a Docker Repository
 
-The next logical step after creating a new image from an existing image is to share it with a select few of our friends, the whole world on Docker Hub, or other Docker registry that we have access to. To push an image to Docker Hub or any other Docker registry, we must have an account there. We’ll be prompted to authenticate using our Docker Hub password. If our password is correct then, authentication should succeed.
+The next logical step after creating a new image from an existing image is to share it with a select few of our friends, the whole world on Docker Hub, or other Docker registry that we have access to. To push an image to Docker Hub or any other Docker registry, we must have an account there. If you don't have a Docker hub account already then please follow the instructions from this video https://youtu.be/ty91qhd7L24 and create one.
+
+We’ll be prompted to authenticate using our Docker Hub password. If our password is correct then, authentication should succeed.
 
 ![43](https://user-images.githubusercontent.com/91766546/156932324-e894624f-ee14-4c80-97c2-73c1d45fc9c7.png)
 
@@ -349,7 +351,7 @@ After pushing an image to a registry, it should be listed on your account’s da
 
 We can now use docker pull senaith/ubuntu-nodejs to pull the image to a new machine and use it to run a new container.
 
-## nstalling Docker Compose
+## Installing Docker Compose
 
 [Docker Compose](https://docs.docker.com/compose/) is a tool that allows you to run multi-container application environments based on definitions set in a YAML file. It uses service definitions to build fully customizable environments with multiple containers that can share networks and data volumes.
 
@@ -392,9 +394,143 @@ In this directory, we will set up an application folder to serve as the document
 
 ![50](https://user-images.githubusercontent.com/91766546/156936855-fd0973ed-0cb8-4ebe-ab1d-3712f3ea4e78.png)
 
-Using your preferred text editor, create a new index.html file within the app folder:
+Using our preferred text editor, we will create a new index.html file within the app folder. For this project the text editor we are using is Nano.
 
 ![51](https://user-images.githubusercontent.com/91766546/156936869-2b800016-faa8-4200-96d0-9d2cb1f0bdc7.png)
+
+Place the following content into this file:
+
+![k65](https://user-images.githubusercontent.com/91766546/156937260-6ef23498-3926-427c-8fb9-7088236bf0f6.png)
+
+Let's save and close the file typing `CTRL+X`, then `Y` and `ENTER` to confirm.
+
+Next, create the `docker-compose.yml` file:
+
+![52](https://user-images.githubusercontent.com/91766546/156937350-ee0823a3-50c6-4818-95b3-c4348688ddda.png)
+
+Place this content into this file.
+
+![k55](https://user-images.githubusercontent.com/91766546/156937400-aded816b-01c2-4862-9f42-02969efe70a2.png)
+
+Save and close the file.
+
+We have set up a demo page and a `docker-compose.yml` file to create a containerized web server environment that will serve it. In the next step, we’ll bring this environment up with Docker Compose.
+
+### Running Docker Compose
+
+With the docker-compose.yml file in place, we can now execute Docker Compose to bring our environment up. The following command will download the necessary Docker images, create a container for the web service, and run the containerized environment in background mode:
+
+![53](https://user-images.githubusercontent.com/91766546/156937780-57e61d53-3d46-4302-bd2b-2a8bb74f3f5f.png)
+
+Our environment is now up and running in the background. To verify that the container is active, let's run the following command. This command will show you information about the running containers and their state, as well as any port redirections currently in place.
+
+![54](https://user-images.githubusercontent.com/91766546/156937860-b68518ea-f44b-4ac5-b50c-4e470c3a179c.png)
+
+We can now access the demo application by pointing our browser to either `localhost:8000` if we are running this demo on our local machine, or `our_server_domain_or_IP:8000` if it's are running on a remote server.
+
+We’ll see a page like this:
+
+![67](https://user-images.githubusercontent.com/91766546/156938011-6deaab59-bf23-482c-bffc-0a817abf7e75.png)
+
+#### Getting Familiar with Docker Compose Commands
+
+Let's see how to use Docker Compose commands to manage and interact with our containerized environment.
+
+To check the logs produced by our Nginx container, we can use the `logs` command:
+
+![55](https://user-images.githubusercontent.com/91766546/156938171-a8088544-0036-4166-9277-75f834173c42.png)
+
+If we want to pause the environment execution without changing the current state of our containers, we can use:
+
+![56](https://user-images.githubusercontent.com/91766546/156938227-52e220ba-9d1f-40d3-93be-9de2d4f57e59.png)
+
+To resume execution after issuing a pause:
+
+![57](https://user-images.githubusercontent.com/91766546/156938243-b5a16074-3ce5-411b-8058-c768c5de5a9e.png)
+
+Additionally, we can use the **stop** command to terminate the container execution, but it won’t destroy any data associated with our containers:
+
+    $ docker-compose stop
+
+Output
+Stopping compose-demo_web_1 ... done
+
+If we want to remove the containers, networks, and volumes associated with this containerized environment, use the down command:
+
+   $ docker-compose down
+
+    Output
+    Removingcompose-demo_web_1 ... done
+    Removing networkcompose-demo_default
+
+Notice that this won’t remove the base image used by Docker Compose to spin up your environment (in our case, nginx:alpine). This way, whenever you bring your environment up again with a docker-compose up, the process will be much faster since the image is already on your system.
+
+We can also use the following command in case we want to also remove the base image from your system:
+ 
+  $ docker image rm nginx:alpine
+
+We’ve seen how to install Docker Compose and set up a containerized environment based on an Nginx web server image. We’ve also seen how to manage this environment using Compose commands.
+
+Finally, to enable SSL you’ll need a domain name pointed at your server’s public IP address. This should be something like example.com or matomo.example.com. For this project I used a domain purchased from Godaddy.com. but feel free to use a host website of your choice.
+
+After purchasing our domain, we will need to add a DNS record as we can see below.
+
+![k44](https://user-images.githubusercontent.com/91766546/156939407-cdcc8065-0e8b-4d10-9853-15acdd6f419b.png)
+
+## Running Matomo and MariaDB with Docker Compose
+
+Our first step will be to create the Docker Compose configuration that will launch containers for both the Matomo app and a MariaDB database.
+
+This section will put your configuration inside a `matomo` directory in our home directory. First ensure you’re in your home directory and then create the matomo directory and cd into it:
+
+![58](https://user-images.githubusercontent.com/91766546/156939541-a696a847-c636-4687-9aba-59c2f2064f2d.png)
+
+Now let's open a new blank YAML file called docker-compose.yml:
+
+![59](https://user-images.githubusercontent.com/91766546/156939567-6b0db32c-c7c1-486b-9feb-8a24a07ee730.png)
+
+This is the configuration file that the docker-compose software will read when bringing up your containers. Open your text editor and paste the following into the file:
+
+![k33](https://user-images.githubusercontent.com/91766546/156939631-d976cd31-837f-4e63-8d8c-51a55ecdcb0d.png)
+
+Save the file and exit your text editor to continue. 
+
+The MariaDB container needs some configuration to be passed to it through environment variables in order to function. The `docker-compose.yml` file lists these environment variables, but not all of them have associated values. That’s because it’s good practice to keep passwords out of your `docker-compose.yml` file, especially if you’ll be committing it to a Git repository or other source control system.
+
+Instead, we’ll put the necessary information in a `.env` file in the same directory, which the `docker-compose` command will automatically load when we start our containers.
+
+Open a new `.env` file with `nano` and insert the following text.
+
+![60](https://user-images.githubusercontent.com/91766546/156939682-83bb7a46-88ae-4f38-911c-8691b1911fc0.png)
+
+![pass](https://user-images.githubusercontent.com/91766546/156939725-666bcc71-fcee-4ff9-99b3-ecddbba1cc99.png)
+
+We’ll need to fill in a user name and password, as well as a strong password for the MariaDB root superuser account. One way of generating a strong password is to use the openssl command, which should be available on most any operating system. The following command will print out a random 30 character hash that you can use as a password:
+
+![61](https://user-images.githubusercontent.com/91766546/156939743-98b04682-16aa-41d9-9b63-003a23a05b8b.png)
+
+When you’re done filling out the information in your `.env` file, save it and exit your text editor.
+
+You’re now ready to bring up the two containers with `docker-compose`.
+
+![62](https://user-images.githubusercontent.com/91766546/156940092-76ec9348-4f66-4ff8-8704-012eba77b198.png)
+
+When that’s done, Matomo should be running. we can test that a webserver is running at localhost:8080 by fetching the homepage using the curl command. This will print out only the HTTP headers from the response.
+
+![63](https://user-images.githubusercontent.com/91766546/156940103-53911f45-9767-4482-b383-d2bf452957b9.png)
+
+### Installing and Configuring Nginx
+
+
+
+
+
+
+
+
+
+
+
 
 
 
