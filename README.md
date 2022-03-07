@@ -3,31 +3,32 @@
 
 In this project you will install Matomo and a MariaDB database using Docker Compose, then install Nginx to act as a reverse proxy for the Matomo app. Finally, you will enable secure HTTPS connections by using Certbot to download and configure SSL certificates from the Let’s Encrypt Certificate Authority.
 
-# Introduction
-## What is Matomo?
+## Introduction
+### What is Matomo?
 
 Matomo, formerly known as Piwik, is a downloadable, Free (GPL licensed) web analytics software platform. It provides detailed reports on your website and its visitors, including the search engines and keywords they used, the language they speak, which pages they like, the files they download and so much more. Matomo (Piwik) aims to be an open source alternative to Google Analytics. Matomo is PHP MySQL software which you download and install on your own webserver.
 
 So, let's begin this project. 
 
-Step 1:
+## Part 1
+###### Step 1:
 
 We need an Ubuntu 20.04 server, with the UFW firewall enabled. In Projects 1 and 2 we have discussed in detail on how to create a free tier AWS account and set up our EC2 server. The initial set up and configuration process for this project is the same so inorder to follow up with these steps please refer to https://github.com/Senaith/Project-1-Web-stack-implementation-on-aws or https://github.com/Senaith/Project-2-LEMP-Stack-Implementation
 Following these steps will increase the security and usability of your server, and will give you a solid foundation for subsequent actions.
 
-Step 2:
+###### Step 2:
 
 To log into your server, you will need to know your server’s public IP address.  You will also need the password or — if you installed an SSH key for authentication — the private key for the root user’s account. 
  
 ![q4](https://user-images.githubusercontent.com/91766546/156699072-126b9a13-a724-4cc8-80bc-9e4b7d5ff3c7.png)
 
-Step 3
+###### Step 3
 
 If you are not already connected to your server, log in now as the root user using the following command (substitute the highlighted portion of the command with your server’s public IP address):
 
 ![2](https://user-images.githubusercontent.com/91766546/156699329-0103f386-6611-4a26-8f63-4ef90911136b.png)
 
-Step 4:
+###### Step 4:
 
 Create a new user using the following command.
 
@@ -38,13 +39,13 @@ This command creates a user named 'sunny'. You can replace that with a user name
 
 As you can see above, after running that command you will be asked a few questions, starting with the account password. Enter a strong password and, optionally, fill in any of the additional information if you would like. This is not required and you can just hit `ENTER` in any field you wish to skip.
 
-Step 5:
+###### Step 5:
 
 Let's grant the new user administrative privileges. Run the following command in your terminal.This will allow our normal user to run commands with administrative privileges by putting the word `sudo` before the command. To add these privileges to our new user, we need to add the user to the **sudo** group. By default, on Ubuntu 20.04, users who are members of the **sudo** group are allowed to use the `sudo` command.
 
 ![4](https://user-images.githubusercontent.com/91766546/156700154-78672756-23b9-4130-9217-5a5eee247c9e.png)
 
-Step 6:
+###### Step 6:
 
 The UFW firewall will be used to ensure that only connections to certain services are permitted. The OpenSSH is the service that will allows us to connect to our server, and it has a profile registered with UFW. IN order to check this we need to run this command:
 
@@ -64,7 +65,7 @@ You can see that SSH connections are still allowed by typing:
 
 The firewall is currently blocking all connections except for SSH, so if we install and configure additional services, we will need to adjust the firewall settings to allow traffic in. 
 
-Step 7:
+###### Step 7:
 
 Enabling External Access for Your Regular User
 
@@ -72,7 +73,7 @@ The process for configuring SSH access for our new user depends on whether our s
 
 ![456](https://user-images.githubusercontent.com/91766546/156705382-49ff2f06-a01d-4f52-ae57-a69b2aa2100d.png)
 
-Troubleshooting:
+###### Troubleshooting:
 
 It is possible to receive an error message that says: Permission Denied (publickey). 
 
@@ -86,11 +87,11 @@ This will open our nano editor and now we can scroll through the file and make t
 
 Change "#PermitRootLogin prohibit-password" to the following:
 
-# PermitRootLogin yes
+#PermitRootLogin yes
 
 Next, change # PasswordAuthentication no to the following:
 
-# PasswordAuthentication yes
+#PasswordAuthentication yes
 
 Next, we need to restart our server using the following command.
 
@@ -100,8 +101,7 @@ Now we should be able to SSH with your new username. Let's try this command agai
 
 ![12](https://user-images.githubusercontent.com/91766546/156885048-09c26609-2d75-425d-9699-bf4ef81e7413.png)
 
-
-Step 8:
+###### Step 8:
 
 The next step is to set Up SSH Keys on our PC. SSH keys provide a secure way of logging into our server and are recommended for all users.
 The first step is to create a key pair on the client machine (usually our computer).
@@ -116,7 +116,7 @@ we will then see a prompt asking us to enter a passphrase. Here we optionally ma
 
 ![k2](https://user-images.githubusercontent.com/91766546/156885868-b4e1683b-328e-479c-a1f8-91f8bf366951.png)
 
-Step 9:
+###### Step 9:
 
 Moving on to our next step, let's copy the Public Key to our Ubuntu Server
 
@@ -133,7 +133,6 @@ Our output should be something similar to this:
 Now, our id_rsa.pub key has been successfully uploaded to the remote account!
 
 ## Part 2:
-
 ### Docker installation
 
 [Docker](https://www.docker.com/) is an application that simplifies the process of managing application processes in containers. Containers let us run our applications in resource-isolated processes. They’re similar to virtual machines, but containers are more portable, more resource-friendly, and more dependent on the host operating system. In this section, we’ll install and use Docker Community Edition (CE) on our PC. we’ll install Docker itself, work with containers and images, and push an image to a Docker Repository.
@@ -145,7 +144,7 @@ Now, our id_rsa.pub key has been successfully uploaded to the remote account!
 
 Let's begin.
 
-Step 1:
+###### Step 1:
 
 To ensure we get the latest version, we’ll install Docker from the official Docker repository. To do that, we’ll add a new package source, add the GPG key from Docker to ensure the downloads are valid, and then install the package.
 
@@ -181,7 +180,7 @@ Docker should now be installed, the daemon started, and the process enabled to s
 
 ![20](https://user-images.githubusercontent.com/91766546/156895886-d07d1a30-e079-4edc-b76b-91a4e2788cb7.png)
 
-Step 2:
+###### Step 2:
 
 Executing the Docker Command Without Sudo (Optional)
 
@@ -207,7 +206,7 @@ If we need to add a user to the docker group that we’re not logged in as, de
 
 Let’s explore the docker command next.
 
-Step 3: Using the Docker Command
+###### Step 3: Using the Docker Command
 
 To view all available subcommands, type:
 
@@ -219,7 +218,7 @@ To view system-wide information about Docker, use:
 
 Let’s explore some of these commands. We’ll start by working with images.
 
-Step 4: Working with Docker Images
+###### Step 4: Working with Docker Images
 
 Docker containers are built from Docker images. By default, Docker pulls these images from [Docker Hub](https://hub.docker.com/), a Docker registry managed by Docker, the company behind the Docker project. Anyone can host their Docker images on Docker Hub, so most applications and Linux distributions you’ll need will have images hosted there.
 
@@ -247,7 +246,7 @@ After an image has been downloaded, you can then run a container using the downl
 
 Next, let’s look at how to run containers in more detail.
 
-### Step 5 — Running a Docker Container
+#### Step 5 — Running a Docker Container
 
 The hello-world container ran in the previous step is an example of a container that runs and exits after emitting a test message. Containers can be much more useful than that, and they can be interactive. Containers are similar to virtual machines, but more resource-friendly.
 
@@ -281,7 +280,7 @@ To exit the container, type exit.
 
 Nice work! In the next section, we will look at managing the containers on our system.
 
-### Step 6 — Managing Docker Containers
+#### Step 6 — Managing Docker Containers
 
 After using Docker for a while, you’ll have many active (running) and inactive containers on your computer. To view the active ones, use:
 
@@ -313,7 +312,7 @@ When we no longer need a container, we can remove it with the ***docker rm*** 
 
 Containers can be turned into images which you can use to build new containers. Let’s look at how that works.
 
-### Step 7 — Committing Changes in a Container to a Docker Image
+#### Step 7 — Committing Changes in a Container to a Docker Image
 
 This section shows you how to save the state of a container as a new Docker image. After installing Node.js inside the Ubuntu container, we now have a container running off an image, but the container is different from the image we used to create it. But we might want to reuse this Node.js container as the basis for new images later.
 
@@ -329,7 +328,7 @@ Listing the Docker images again will show the new image, as well as the old one 
 
 In this example, ubuntu-nodejs is the new image, which was derived from the existing ubuntu image from Docker Hub. The size difference reflects the changes that were made. The change was that NodeJS was installed. So next time we need to run a container using Ubuntu with NodeJS pre-installed, we can just use the new image.
 
-### Step 8 — Pushing Docker Images to a Docker Repository
+#### Step 8 — Pushing Docker Images to a Docker Repository
 
 The next logical step after creating a new image from an existing image is to share it with a select few of our friends, the whole world on Docker Hub, or other Docker registry that we have access to. To push an image to Docker Hub or any other Docker registry, we must have an account there. If you don't have a Docker hub account already then please follow the instructions from this video https://youtu.be/ty91qhd7L24 and create one.
 
@@ -351,7 +350,8 @@ After pushing an image to a registry, it should be listed on your account’s da
 
 We can now use docker pull senaith/ubuntu-nodejs to pull the image to a new machine and use it to run a new container.
 
-## Installing Docker Compose
+## Part 3
+### Installing Docker Compose
 
 [Docker Compose](https://docs.docker.com/compose/) is a tool that allows you to run multi-container application environments based on definitions set in a YAML file. It uses service definitions to build fully customizable environments with multiple containers that can share networks and data volumes.
 
@@ -477,6 +477,7 @@ After purchasing our domain, we will need to add a DNS record as we can see belo
 
 ![k44](https://user-images.githubusercontent.com/91766546/156939407-cdcc8065-0e8b-4d10-9853-15acdd6f419b.png)
 
+## Part 4
 ## Running Matomo and MariaDB with Docker Compose
 
 Our first step will be to create the Docker Compose configuration that will launch containers for both the Matomo app and a MariaDB database.
@@ -520,6 +521,125 @@ When that’s done, Matomo should be running. we can test that a webserver is ru
 ![63](https://user-images.githubusercontent.com/91766546/156940103-53911f45-9767-4482-b383-d2bf452957b9.png)
 
 ### Installing and Configuring Nginx
+
+Putting a web server such as Nginx in front of your Matomo server can improve performance by offloading caching, compression, and static file serving to a more efficient process. 
+First, refresh your package list, then install Nginx using apt.
+
+![64](https://user-images.githubusercontent.com/91766546/156955540-05c2cdd8-9f68-4022-a4ad-1e8e955cc054.png)
+
+![65](https://user-images.githubusercontent.com/91766546/156955556-eacd9937-0164-425e-ac64-04d7670733ea.png)
+
+Allow public traffic to ports 80 and 443 (HTTP and HTTPS) using the “Nginx Full” UFW application profile:
+
+![66](https://user-images.githubusercontent.com/91766546/156955706-261b555c-2e64-40c1-947a-80a1bcdd601d.png)
+
+Next, open up a new Nginx configuration file in the /etc/nginx/sites-available directory. We’ll call it matomo.conf.
+
+![67](https://user-images.githubusercontent.com/91766546/156955749-0151efd0-8735-4ee5-b54a-5bdea3ba7027.png)
+
+Paste the following into the new configuration file, being sure to replace your_domain_here with the domain that you’ve configured to point to your Matomo server. 
+
+![k34](https://user-images.githubusercontent.com/91766546/156956036-e4bbfa26-0525-4b25-95db-5c6587e7dbda.png)
+
+Save and close the file, then enable the configuration by linking it into /etc/nginx/sites-enabled/
+
+![68](https://user-images.githubusercontent.com/91766546/156955948-b657b420-a06e-4bb9-b540-99f87b5cc02a.png)
+
+Use nginx -t to verify that the configuration file syntax is correct.
+
+![69](https://user-images.githubusercontent.com/91766546/156957377-e8a7b125-ddec-4726-bbb2-20cb429e692f.png)
+
+And finally, reload the nginx service to pick up the new configuration.
+
+![70](https://user-images.githubusercontent.com/91766546/156957436-dc063d9c-4810-4efa-8c48-e05d6b746117.png)
+
+Your Matomo site should now be available on plain HTTP. Load http://your_domain_here (you may have to click through a security warning) and it will look like this.
+
+![matomopage](https://user-images.githubusercontent.com/91766546/156959582-de971f39-7cd6-494d-bf51-bedf82ef7eec.png)
+
+Now that you have your site up and running over HTTP, it’s time to secure the connection with Certbot and Let’s Encrypt certificates. You should do this before going through Matomo’s web-based setup procedure.
+
+### Installing Certbot and Setting Up SSL Certificates
+
+First, install Certbot and its Nginx plugin:
+
+![71](https://user-images.githubusercontent.com/91766546/156957921-bdc402ac-57b6-4aa6-b940-f34203baf2c0.png)
+
+Next, run certbot in --nginx mode, and specify the same domain you used in the Nginx server_name config. You’ll be prompted to agree to the Let’s Encrypt terms of service, and to enter an email address. Afterwards, you’ll be asked if you want to redirect all HTTP traffic to HTTPS. It’s up to you, but this is generally recommended and safe to do. After that, Let’s Encrypt will confirm your request and Certbot will download your certificate:
+
+![72](https://user-images.githubusercontent.com/91766546/156957979-fd672344-9186-48a0-8fff-46e99222ba1b.png)
+
+Certbot will automatically reload Nginx to pick up the new configuration and certificates. Reload your site and it should switch you over to HTTPS automatically if you chose the redirect option.
+
+Your site is now secure and it’s safe to continue with the web-based setup steps.
+
+### Setting Up Matomo
+
+Back in your web browser you should now have Matomo’s **Welcome!** page open via a secure `https://` connection. Now you can enter usernames and passwords safely to complete the installation process.
+
+Click the **Next** button. You’ll be taken to the **System Check** step:
+
+![matomo2](https://user-images.githubusercontent.com/91766546/156958486-a64ddd27-d534-4d39-9055-ca50b5c28eac.png)
+
+This is a summary of the system Matomo is running on, and everything should be green checkmarks indicating there are no problems. Scroll all the way to the bottom and click the **Next** button.
+
+Now you’ll be on the **Database Setup** page:
+
+![matomo4](https://user-images.githubusercontent.com/91766546/156958563-c71a98c8-c092-4075-b0d2-e819c18f894b.png)
+
+The information you fill in on this page will tell the Matomo application how to connect to the MariaDB database. You’ll need the MARIADB_USER and MARIADB_PASSWORD that you chose in Step 1. You can copy them out of your .env file if you need to.
+
+Fill out the first four fields:
+
+Database Server: db
+Login: the username you set in the MARIADB_USER environment variable
+Password: the password you set in the MARIADB_PASSWORD environment variable
+Database Name: matomo
+
+Click Next once more. You’ll get a confirmation that the database Tables were set up correctly.
+
+![matomo5](https://user-images.githubusercontent.com/91766546/156958700-201b4c59-da8e-4493-9d16-ce5c2ccc3d0d.png)
+
+Click Next again. You’ll then need to set up an admin user, and finally you’ll set up information about the first website you want to collect analytics for.
+
+![matomo6](https://user-images.githubusercontent.com/91766546/156958747-08856550-d1b8-4cec-83ef-ce72937103ff.png)
+
+![matomo8](https://user-images.githubusercontent.com/91766546/156959664-414963d8-b182-4af8-b835-c7dab3289b9e.png)
+
+After all that, you should end up on step 8, a Congratulations page. You’re almost all done. Scroll down to the bottom and click the Continue to Matomo button, and you’ll be taken to the homepage.
+
+![Screenshot_20220302-172112_Chrome](https://user-images.githubusercontent.com/91766546/156959382-9a0fe403-990b-4de4-80bf-1492d196a02a.jpg)
+
+Back on the command line, open up the configuration file with a text editor.
+
+![k11](https://user-images.githubusercontent.com/91766546/156960714-eed6f4c8-6e42-467f-bcac-0e880c1f6d01.png)
+
+Near the top you should have a [General] section as shown below. Add these lines to the end of that section:
+
+trusted_hosts[] = "localhost:8080"
+assume_secure_protocol = 1
+force_ssl = 1
+
+Let's save and close the configuration file, then switch back to our browser and reload the page. The error should be gone, and you’ll be presented with a login prompt. Log in with the admin account we created during setup, and we should be taken to the dashboard.
+
+![matomo9](https://user-images.githubusercontent.com/91766546/156960955-309d2ac2-0c9a-41b6-a30b-8bf178c64f72.png)
+
+Please note, that since you probably have not set up your tracking code yet, the dashboard will indicate that no data has been recorded.
+
+Simply follow the instructions to finish setting up the JavaScript code on your website to start receiving analytics data!
+
+## Conclusion
+
+Congratulations! we have successfully launched the Matamo analytics app and a MariaDB database using Docker Compose, and then set up an Nginx reverse proxy and secured it using Let’s Encrypt SSL certificates! Good job!!!
+
+
+
+
+
+
+
+
+
 
 
 
